@@ -10,8 +10,61 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 0) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_19_215733) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "addresses", force: :cascade do |t|
+    t.string "address_line"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "agent_users", force: :cascade do |t|
+    t.string "business_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_detail_id", null: false
+    t.index ["user_detail_id"], name: "index_agent_users_on_user_detail_id"
+  end
+
+  create_table "cities", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "countries", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "individual_users", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_detail_id", null: false
+    t.index ["user_detail_id"], name: "index_individual_users_on_user_detail_id"
+  end
+
+  create_table "states", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "user_details", force: :cascade do |t|
+    t.string "phone_number"
+    t.string "role"
+    t.string "profile_pic"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "address_id", null: false
+    t.index ["address_id"], name: "index_user_details_on_address_id"
+  end
+
+  add_foreign_key "agent_users", "user_details"
+  add_foreign_key "individual_users", "user_details"
+  add_foreign_key "user_details", "addresses"
 end
